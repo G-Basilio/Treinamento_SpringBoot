@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -39,9 +40,13 @@ public class Fazendeiro {
     @ManyToMany
     @JsonBackReference
     @JoinTable(name = "COOPERATIVA_FAZENDEIRO",
-        joinColumns={@JoinColumn(name = "ID_FAZENDEIRO", referencedColumnName = "ID")},
-        inverseJoinColumns = {@JoinColumn(name = "ID_COOPERATIVA", referencedColumnName = "ID")})
+            joinColumns={@JoinColumn(name = "ID_FAZENDEIRO", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "ID_COOPERATIVA", referencedColumnName = "ID")})
     private List<Cooperativa> cooperativas;
+
+    @OneToMany(mappedBy = "fazendeiro")
+    @JsonBackReference
+    private List<Fazenda> fazendas;
 
     public Fazendeiro(Long id) {
         this.id = id;

@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import br.com.solinftec.treinamento.dto.cooperativa.CooperativaDto;
 import br.com.solinftec.treinamento.dto.cooperativa.GetAllCooperativaDto;
 import br.com.solinftec.treinamento.dto.cooperativa.SaveCooperativaDto;
 import br.com.solinftec.treinamento.model.Cooperativa;
@@ -64,5 +69,21 @@ public class CooperativaService {
         } else {
             throw new Exception("COOPERATIVA_NOT_FOUND");
         }
+    }
+
+    public CooperativaDto getCooperativa(Long idCooperativa) throws Exception {
+
+        Optional<Cooperativa> cooperativa = repository.findById(idCooperativa);
+
+        if(cooperativa.isPresent()) {
+            return new CooperativaDto(cooperativa.get());
+        } else {
+            throw new Exception("COOPERATIVA_NOT_FOUND");
+        }
+    }
+
+    public Page<CooperativaDto> getPage(Pageable pageable, String search) {
+        Page<Cooperativa> page = repository.findAllPaged(pageable, search);
+        return page.map(cooperativa -> new CooperativaDto(cooperativa));
     }
 }
