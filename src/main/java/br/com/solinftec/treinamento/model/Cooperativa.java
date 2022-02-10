@@ -9,8 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
@@ -40,4 +42,8 @@ public class Cooperativa {
         joinColumns={@JoinColumn(name = "ID_COOPERATIVA", referencedColumnName = "ID")},
         inverseJoinColumns = {@JoinColumn(name = "ID_FAZENDEIRO", referencedColumnName = "ID")})
     private List<Fazendeiro> fazendeiros;
+
+    @OneToMany(mappedBy = "cooperativa")
+    @JsonBackReference
+    private List<OrdemServico> ordemServicos;
 }

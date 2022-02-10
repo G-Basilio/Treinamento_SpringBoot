@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import br.com.solinftec.treinamento.configuration.TreinamentoDefaultException;
 import br.com.solinftec.treinamento.dto.cooperativa.CooperativaDto;
 import br.com.solinftec.treinamento.dto.cooperativa.GetAllCooperativaDto;
 import br.com.solinftec.treinamento.dto.cooperativa.SaveCooperativaDto;
@@ -39,14 +40,8 @@ public class CooperativaResource {
     }
 
     @GetMapping("/{idCooperativa}")
-    public ResponseEntity<CooperativaDto> getCooperativa(@PathVariable("idCooperativa") Long idCooperativa) {
-        try {
-            return ResponseEntity.ok().body(service.getCooperativa(idCooperativa));
-        }  catch (Exception e) {
-            if(e.getMessage().equals("COOPERATIVA_NOT_FOUND"))
-                return ResponseEntity.notFound().build();
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<CooperativaDto> getCooperativa(@PathVariable("idCooperativa") Long idCooperativa) throws TreinamentoDefaultException {
+        return ResponseEntity.ok().body(service.getCooperativa(idCooperativa));
     }
 
     @GetMapping("/paged")
@@ -104,6 +99,11 @@ public class CooperativaResource {
 
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("/ativos")
+    public ResponseEntity<List<CooperativaDto>> getCooperativasAtivas() {
+        return ResponseEntity.ok().body(service.getCooperativasAtivas());
     }
 
 }

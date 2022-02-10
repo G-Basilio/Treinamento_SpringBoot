@@ -13,27 +13,30 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
 @Entity
-@Table(name = "EQUIPAMENTO")
-public class Equipamento {
-
+@Table(name = "PRODUTO")
+@Data
+@NoArgsConstructor
+public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "DESCRICAO")
-    private String descicao;
+    private String descricao;
+
     @Column(name = "LATITUDE")
     private Float latitude;
-    @Column(name = "LONGITUDE")
-    private Float longitude;
-    @Column(name = "ATIVO")
-    private int ativo;
 
-    @OneToMany(mappedBy = "equipamento")
+    @Column(name = "ID_CRIDADE")
+    private Float id_cidade;
+
+    @Column(name = "ATIVO")
+    private Boolean ativo;
+
+    @OneToMany(mappedBy = "produto")
     @JsonBackReference
     private List<OrdemServico> ordemServicos;
-    
 }
